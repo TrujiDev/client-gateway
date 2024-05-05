@@ -8,8 +8,11 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
+import { catchError, firstValueFrom } from 'rxjs';
+import { PaginationDto } from 'src/common';
 import { PRODUCT_SERVICE } from 'src/config';
 
 @Controller('products')
@@ -24,13 +27,28 @@ export class ProductsController {
   }
 
   @Get()
-  findAll() {
-    return this.productsClient.send({ cmd: 'show_all_products' }, {});
+  findProducts(@Query() paginationDTO: PaginationDto) {
+    return this.productsClient.send(
+      { cmd: 'show_all_products' },
+      paginationDTO,
+    );
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return `Return product with id ${id}`;
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.productsClient.send({ cmd: 'find_product' }, { id }).pipe(
+      catchError((error) => {
+        throw new RpcException(error);
+      }),
+    );
+
+    // try {
+    //   return await firstValueFrom(
+    //     this.productsClient.send({ cmd: 'find_product' }, { id }),
+    //   );
+    // } catch (error) {
+    //   throw new RpcException(error);
+    // }
   }
 
   @Patch(':id')
