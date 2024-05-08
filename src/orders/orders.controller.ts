@@ -7,9 +7,9 @@ import {
   Inject,
   ParseIntPipe,
 } from '@nestjs/common';
-import { CreateOrderDto } from './dto/create-order.dto';
 import { ORDER_SERVICE } from 'src/config';
 import { ClientProxy } from '@nestjs/microservices';
+import { CreateOrderDto } from './dto';
 
 @Controller('orders')
 export class OrdersController {
