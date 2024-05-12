@@ -14,7 +14,6 @@ import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { CreateOrderDto, OrderPaginatioDto, StatusDto } from './dto';
 import { catchError } from 'rxjs';
 import { PaginationDto } from 'src/common';
-import { error } from 'console';
 
 @Controller('orders')
 export class OrdersController {
