@@ -23,16 +23,24 @@ export class ProductsController {
 
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
-    return this.client.send({ cmd: 'create_product' }, createProductDto);
+    return this.client.send({ cmd: 'create_product' }, createProductDto).pipe(
+      catchError((error) => {
+        throw new RpcException(error);
+      }),
+    );
   }
 
   @Get()
   findProducts(@Query() paginationDTO: PaginationDto) {
-    return this.client.send({ cmd: 'show_all_products' }, paginationDTO);
+    return this.client.send({ cmd: 'show_all_products' }, paginationDTO).pipe(
+      catchError((error) => {
+        throw new RpcException(error);
+      }),
+    );
   }
 
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.client.send({ cmd: 'find_product' }, { id }).pipe(
       catchError((error) => {
         throw new RpcException(error);
@@ -57,6 +65,10 @@ export class ProductsController {
 
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.client.send({ cmd: 'delete_product' }, { id });
+    return this.client.send({ cmd: 'delete_product' }, { id }).pipe(
+      catchError((error) => {
+        throw new RpcException(error);
+      }),
+    );
   }
 }
