@@ -1,73 +1,65 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Client Gateway
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Descripción
+El Client Gateway actúa como un punto de entrada unificado para todos los microservicios de la aplicación. Su función principal es enrutar las solicitudes de los clientes a los microservicios correspondientes, proporcionando una interfaz coherente y simplificada. Este diseño permite una mejor gestión de las solicitudes, autenticación y balanceo de carga, así como una mayor seguridad al ocultar la complejidad de la arquitectura de microservicios subyacente.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Funcionalidades
+- **Ruteo de Solicitudes**: Redirige las solicitudes del cliente a los microservicios apropiados (productos, órdenes, pagos, etc.).
+- **Gestión de Autenticación**: Implementa mecanismos de autenticación para asegurar que solo los usuarios autorizados puedan acceder a ciertos recursos.
+- **Centralización de Respuestas**: Compila y presenta respuestas de múltiples microservicios de manera coherente para el cliente.
+- **Manejo de Errores**: Proporciona un manejo de errores consistente y claro para las solicitudes realizadas a través del gateway.
 
-## Description
+## Tecnologías Utilizadas
+- **NestJS**: Framework para construir aplicaciones del lado del servidor eficientes y escalables.
+- **TypeScript**: Lenguaje de programación que proporciona tipado estático, mejorando la calidad del código.
+- **Docker**: Facilita la creación y gestión de contenedores para ejecutar el gateway de manera aislada.
+- **NATS**: Sistema de mensajería utilizado para la comunicación entre microservicios.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Instalación
+Para instalar y ejecutar el Client Gateway, sigue estos pasos:
 
-## Installation
-
+### 1. Clonar el Repositorio
+Clona el repositorio del Client Gateway:
 ```bash
-$ npm install
+git clone https://github.com/TrujiDev/client-gateway.git
+cd client-gateway
 ```
 
-## Running the app
-
+### 2. Instalar Dependencias
+Instala las dependencias necesarias utilizando npm:
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+### 3. Configuración del Entorno
+Crea un archivo `.env` en la raíz del proyecto y configura las variables necesarias:
+```env
+NATS_URL=nats://localhost:4222
 ```
 
-## Support
+### 4. Ejecutar el Client Gateway
+Finalmente, ejecuta el gateway:
+```bash
+npm run start
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Uso
+El Client Gateway expone varias rutas que permiten interactuar con los microservicios. Algunas de las rutas clave incluyen:
 
-## Stay in touch
+- **POST /api/products**: Crear un nuevo producto (redirigido al microservicio de productos).
+- **GET /api/products**: Listar todos los productos (redirigido al microservicio de productos).
+- **POST /api/orders**: Crear una nueva orden (redirigido al microservicio de órdenes).
+- **POST /api/payments**: Procesar un nuevo pago (redirigido al microservicio de pagos).
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Mantenimiento
+Para mantener el Client Gateway actualizado, asegúrate de:
+- Revisar y aplicar actualizaciones de seguridad a las dependencias.
+- Realizar pruebas regulares para asegurar el correcto funcionamiento del servicio.
 
-## License
-
-Nest is [MIT licensed](LICENSE).
+## Contribuciones
+Las contribuciones son bienvenidas. Si deseas contribuir a este microservicio, sigue estos pasos:
+1. Haz un fork del repositorio.
+2. Crea tu feature branch (`git checkout -b feature/AmazingFeature`).
+3. Haz un commit de tus cambios (`git commit -m 'Add some AmazingFeature'`).
+4. Haz push a la branch (`git push origin feature/AmazingFeature`).
+5. Abre un Pull Request.
